@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/swagger_dark_square.png" width="480" alt="FastAPI Mini-Blog Swagger UI dark theme">
+</p>
+
 # 🏗️ FastAPI Mini-Blog API
 
 A compact API built with **FastAPI** and **SQLite** implementing registration, authentication, posts, and comments — structured for clarity and maintainability.
