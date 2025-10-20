@@ -1,0 +1,179 @@
+/* ==========================================================================
+   FastAPI Mini-Blog — Swagger UI Dark Theme (Final)
+   Palette:
+     --teal   : #00BFA5
+     --purple : #8E2DE2
+     --bg     : #111111
+     --panel  : #161616
+     --panel2 : #191919
+     --text   : #FFFFFF
+     --muted  : #A7ABB0
+   Notes:
+     - Load official SwaggerUI CSS first; then override.
+     - Keep selectors lean; avoid duplicates; last-wins ordering.
+   ========================================================================== */
+
+/* Load upstream baseline */
+@import url("https://cdn.jsdelivr.net/npm/swagger-ui-dist@5/swagger-ui.css");
+
+/* === Root palette ======================================================== */
+:root{
+  --teal:#00BFA5;
+  --purple:#8E2DE2;
+  --bg:#111111;
+  --panel:#161616;
+  --panel2:#191919;
+  --text:#FFFFFF;
+  --muted:#A7ABB0;
+}
+
+/* === Global base ========================================================= */
+html, body, .swagger-ui, .swagger-ui .wrapper{
+  background:var(--bg) !important; color:var(--text) !important;
+}
+
+/* === Topbar (brand) ====================================================== */
+/* Hide Swagger’s default internals and inject our title */
+.swagger-ui .topbar *{ display:none !important; }
+.swagger-ui .topbar{
+  height:52px; background:var(--bg) !important;
+  border-bottom:1px solid #222 !important; position:relative;
+}
+.swagger-ui .topbar::after{
+  content:"Mini-Blog API";
+  display:flex; align-items:center; height:100%; padding:0 20px;
+  color:var(--teal); font-weight:800; font-size:20px; letter-spacing:.3px;
+}
+/* Hide the download URL box (optional) */
+.swagger-ui .topbar .download-url-wrapper{ display:none !important; }
+
+/* === Containers & headers =============================================== */
+.swagger-ui .scheme-container,
+.swagger-ui .opblock{ background:var(--panel) !important; border-color:#222 !important; }
+
+.swagger-ui .opblock .opblock-section-header{
+  background:var(--panel2) !important; color:var(--text) !important;
+}
+
+/* Tags, links, paths, titles pick teal accent */
+.swagger-ui .info .title,
+.swagger-ui .opblock-tag,
+.swagger-ui a,
+.swagger-ui .link,
+.swagger-ui .opblock-summary-path,
+.swagger-ui .model-title{ color:var(--teal) !important; }
+
+/* === Method badges ======================================================= */
+.opblock.opblock-get .opblock-summary-method{
+  background:var(--teal) !important; color:#111111 !important;
+}
+.opblock.opblock-post .opblock-summary-method{
+  background:var(--purple) !important; color:#FFFFFF !important; border-color:var(--purple) !important;
+}
+.opblock.opblock-put .opblock-summary-method{
+  background:var(--teal) !important; color:#111111 !important;
+}
+.opblock.opblock-delete .opblock-summary-method{
+  background:#E53935 !important; color:#FFFFFF !important;
+}
+/* Subtle hover lift for all badges */
+.opblock-summary-method:hover{ filter:brightness(1.2); transition:filter .2s ease-in-out; }
+
+/* === Locks & Authorize =================================================== */
+/* Authorize button – borderless teal lock; button stays purple on idle */
+.swagger-ui .btn.authorize{
+  background:transparent !important; color:var(--purple) !important; border:1px solid var(--purple) !important;
+}
+.swagger-ui .btn.authorize:hover{ background:var(--teal) !important; color:#111 !important; border-color:var(--teal) !important; }
+.swagger-ui .btn.authorize svg, .swagger-ui .btn.authorize svg path{
+  fill:var(--teal) !important; stroke:var(--teal) !important;
+}
+
+/* Per-endpoint locks → solid teal (fill + stroke + currentColor) */
+.swagger-ui .opblock .opblock-summary .authorization__btn,
+.swagger-ui .opblock .opblock-summary-control .authorization__btn{
+  color:var(--teal) !important; border-color:var(--teal) !important;
+}
+.swagger-ui .opblock .opblock-summary .authorization__btn > svg,
+.swagger-ui .opblock .opblock-summary .authorization__btn > svg *,
+.swagger-ui .opblock .opblock-summary-control .authorization__btn > svg,
+.swagger-ui .opblock .opblock-summary-control .authorization__btn > svg *{
+  fill:currentColor !important; stroke:currentColor !important;
+}
+
+/* === Arrows/Chevrons (teal) ============================================= */
+.swagger-ui section.models svg,
+.swagger-ui section.models svg *,
+.swagger-ui section.models .model-toggle svg,
+.swagger-ui section.models .model-toggle svg *{
+  fill:var(--teal) !important; stroke:var(--teal) !important;
+}
+.swagger-ui .opblock-summary-control svg,
+.swagger-ui .opblock-summary-control svg *,
+.swagger-ui .opblock-summary .arrow,
+.swagger-ui .opblock-summary .arrow *,
+.swagger-ui .opblock-summary .expand-operation,
+.swagger-ui .opblock-summary .expand-operation *{
+  fill:var(--teal) !important; stroke:var(--teal) !important; color:var(--teal) !important;
+}
+
+/* === Buttons (“Try it out”, “Execute”) ================================== */
+/* Teal by default; purple only while pressed */
+.swagger-ui .btn,
+.swagger-ui .try-out,
+.swagger-ui .execute-wrapper .btn{
+  background:var(--teal) !important; color:#111111 !important; border:none !important;
+  box-shadow:none !important; font-weight:600; transition:background .2s ease-in-out;
+}
+.swagger-ui .btn:active,
+.swagger-ui .try-out:active,
+.swagger-ui .execute-wrapper .btn:active{
+  background:var(--purple) !important; color:#FFFFFF !important;
+}
+
+/* === Readability: body text & tables ==================================== */
+/* Short endpoint description inside expanded operation */
+.swagger-ui .opblock .opblock-body .opblock-description-wrapper,
+.swagger-ui .opblock .opblock-body .opblock-description-wrapper p,
+.swagger-ui .opblock .opblock-body .opblock-description-wrapper .markdown p{
+  color:#D8D8D8 !important; font-weight:400; font-size:15px; line-height:1.45;
+}
+/* Section titles, headers */
+.swagger-ui .opblock-section-header h4,
+.swagger-ui .responses-inner h5,
+.swagger-ui .responses-inner h4,
+.swagger-ui table thead th{ color:#E6E6E6 !important; font-weight:600; }
+/* Secondary labels & table text */
+.swagger-ui .parameters-col_description,
+.swagger-ui .parameters-col_name,
+.swagger-ui .response-col_description,
+.swagger-ui .response-col_status,
+.swagger-ui .response-col_links,
+.swagger-ui .response-col_links a,
+.swagger-ui table tbody td,
+.swagger-ui table tbody th{ color:#B0B0B0 !important; }
+/* Minor captions */
+.swagger-ui .parameter__in,
+.swagger-ui .parameter__type,
+.swagger-ui .response__summary,
+.swagger-ui .response__content__title,
+.swagger-ui .response-col_links small{ color:var(--muted) !important; font-style:italic; }
+
+/* === Schemas block ======================================================= */
+/* Title “Schemas” → purple, with no outline */
+.swagger-ui section.models,
+.swagger-ui section.models.is-open,
+.swagger-ui section.models > h4,
+.swagger-ui section.models > .models-title{
+  background:transparent !important; border:0 !important; box-shadow:none !important; outline:none !important;
+}
+.swagger-ui section.models > h4,
+.swagger-ui section.models > .models-title{ color:var(--purple) !important; }
+
+/* Nuclear wipe of legacy white pills inside Schemas (titles & properties) */
+.swagger-ui section.models *{
+  background:transparent !important; background-image:none !important; box-shadow:none !important; border-color:transparent !important;
+}
+/* Keep text readable after the wipe */
+.swagger-ui section.models, .swagger-ui section.models *{ color:var(--muted) !important; }
+

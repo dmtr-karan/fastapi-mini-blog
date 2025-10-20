@@ -21,9 +21,12 @@ from models.user import UserIn, User
 from security import (get_password_hash, create_access_token,
                       authenticate_user, get_current_user)
 from fastapi.security import OAuth2PasswordRequestForm
+from fastapi.staticfiles import StaticFiles
+from fastapi.openapi.docs import get_swagger_ui_html
 
 # === Application =============================================================
-app = FastAPI()
+app = FastAPI(docs_url=None, redoc_url=None)
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 
 # === Setup Events =============================================================
@@ -35,6 +38,18 @@ async def startup():
 @app.on_event("shutdown")
 async def shutdown():
     await database.disconnect()
+
+
+# === Color Theme: Swagger UI Docs ===========================================
+@app.get("/docs", include_in_schema=False)
+async def custom_swagger_ui():
+    return get_swagger_ui_html(
+        openapi_url=(app.openapi_url or "/openapi.json"),
+        title="FastAPI Mini-Blog — Docs",
+        swagger_js_url="https://cdn.jsdelivr.net/npm/swagger-ui-dist@5/swagger-ui-bundle.js",
+        # Use our combined CSS (imports default + overrides)
+        swagger_css_url="/static/swagger-dark.css?v=1",
+    )
 
 # === Dev Utilities: health + reset (guarded) ================================
 ALLOWED_MAINTAINERS = {"dim"}  # Allow only specific users to hit dev-only endpoints
