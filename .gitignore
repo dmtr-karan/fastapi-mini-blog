@@ -1,0 +1,25 @@
+# IDE
+.idea/
+.vscode/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+.env
+.mypy_cache/
+.pytest_cache/
+
+# Obsidian (if used for notes)
+.obsidian/workspace.json
+.obsidian/appearance.json
+.obsidian/plugins/obsidian-git/data.json
+.obsidian/cache/
+.trash/
+
+# Misc
+.DS_Store
+Thumbs.db
+
+# Local DB
+data.db
