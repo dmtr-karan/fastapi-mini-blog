@@ -15,10 +15,16 @@ from jose import JWTError, jwt
 from database import database, user_table
 from fastapi import status, HTTPException, Depends
 from fastapi.security import OAuth2PasswordBearer
+import os
 
 
 # === Configuration (JWT & password hashing) ==================================
-SECRET_KEY = "9b73f2a1bdd7ae163444473d29a6885ffa22ab26117068f72a5a56a74d12d1fc"
+SECRET_KEY = os.getenv("FASTAPI_MINI_BLOG_SECRET_KEY")
+if not SECRET_KEY:
+    raise RuntimeError(
+        "Missing required env var: FASTAPI_MINI_BLOG_SECRET_KEY "
+        "(set it in your PyCharm Run/Debug configuration)."
+    )
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
