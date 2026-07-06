@@ -74,3 +74,20 @@ def test_non_sqlite_engine_does_not_receive_sqlite_connect_args(monkeypatch, tmp
     create_engine.assert_called_once()
     _, kwargs = create_engine.call_args
     assert kwargs["connect_args"] == {}
+
+
+def test_postgres_url_is_supported_without_live_server(monkeypatch, tmp_path):
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.setenv("DATABASE_URL", "postgresql://user:pass@localhost/db")
+
+    for module_name in ["database", "main", "security", "models.post", "models.user"]:
+        sys.modules.pop(module_name, None)
+
+    importlib.invalidate_caches()
+
+    with patch("databases.Database") as database_cls, patch("sqlalchemy.create_engine") as create_engine:
+        database_cls.return_value = object()
+        database_module = importlib.import_module("database")
+
+    create_engine.assert_called_once()
+    assert database_module.DATABASE_URL == "postgresql://user:pass@localhost/db"
