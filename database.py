@@ -9,11 +9,13 @@ Responsibilities:
 
 
 # === Imports & Setup =========================================================
+import os
+
 import databases
 import sqlalchemy
 
 # === Database URL & engine/metadata =========================================
-DATABASE_URL = "sqlite:///data.db"  # could come from an env var
+DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///data.db")
 metadata = sqlalchemy.MetaData()
 # === Async Database instance =================================================
 database = databases.Database(DATABASE_URL)
@@ -52,7 +54,6 @@ comments_table = sqlalchemy.Table(
 
 
 # === Engine & metadata creation =============================================
-engine = sqlalchemy.create_engine(
-    DATABASE_URL, connect_args={"check_same_thread": False}
-)
+connect_args = {"check_same_thread": False} if DATABASE_URL.startswith("sqlite") else {}
+engine = sqlalchemy.create_engine(DATABASE_URL, connect_args=connect_args)
 metadata.create_all(engine)
