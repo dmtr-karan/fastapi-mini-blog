@@ -4,7 +4,7 @@
 
 # 🏗️ FastAPI Mini-Blog API
 
-A compact API built with **FastAPI** and **SQLite** implementing registration, authentication, posts, and comments — structured for clarity and maintainability.
+A small FastAPI backend API for a mini-blog, with JWT authentication, posts, comments, tests, and configurable SQLite/PostgreSQL database support.
 
 ---
 
@@ -13,15 +13,18 @@ A compact API built with **FastAPI** and **SQLite** implementing registration, a
 - **Protected write endpoints** `/post` and `/comment`
 - **Nested read** via `GET /posts/{id}` returning a post with its comments
 - **Clean responses** hiding internal database fields
-- **SQLite** persistence (`data.db`) using SQLAlchemy Core tables
+- **Configurable SQLite/PostgreSQL database support** using SQLAlchemy Core tables
 
 ---
 
 ## 📦 Setup
 ```bash
 pip install -r requirements.txt
-uvicorn main:app --reload
+cp .env.example .env
+uvicorn main:app --reload --env-file .env
 ```
+
+`DATABASE_URL` controls the database backend. SQLite is used by default when `DATABASE_URL` is not set. PostgreSQL can be used by setting `DATABASE_URL` to a PostgreSQL connection string.
 
 > `python-multipart` (included in `requirements.txt`) is required for the OAuth2 form at `/token`.
 
@@ -124,15 +127,6 @@ Use only on local/dev databases.
 
 ## 🛠️ Future Extensions
 - Pagination: `GET /posts?limit=&skip=` and `GET /post/{id}/comments?limit=&skip=`
-- `/health` endpoint returning `{ "status": "ok" }`
-- Add MIT License and Contributing guidelines
-
----
-
-## 🔭 Future Updates
-- Migrate `@app.on_event` startup/shutdown to **lifespan context** when convenient.
-- Replace deprecated `.dict()` calls with **`.model_dump()`** (Pydantic v2).
-- Verify compatibility with upcoming **FastAPI 1.x / Pydantic 3** and adjust as needed.
 
 ---
 
